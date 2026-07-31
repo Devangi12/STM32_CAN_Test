@@ -40,7 +40,6 @@
 
 /* Private variables ---------------------------------------------------------*/
  FDCAN_HandleTypeDef hfdcan1;
- HAL_StatusTypeDef txStatus;
 
 /* USER CODE BEGIN PV */
  FDCAN_TxHeaderTypeDef TxHeader;
@@ -49,11 +48,11 @@
  {
      0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88
  };
-
  HAL_StatusTypeDef startStatus;
  uint32_t txLevel;
  uint32_t fdcanError;
  FDCAN_ProtocolStatusTypeDef protocolStatus;
+ HAL_StatusTypeDef txStatus;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -206,7 +205,7 @@ static void MX_FDCAN1_Init(void)
   hfdcan1.Init.DataSyncJumpWidth = 1;
   hfdcan1.Init.DataTimeSeg1 = 1;
   hfdcan1.Init.DataTimeSeg2 = 1;
-  hfdcan1.Init.StdFiltersNbr = 0;
+  hfdcan1.Init.StdFiltersNbr = 1;
   hfdcan1.Init.ExtFiltersNbr = 0;
   hfdcan1.Init.TxFifoQueueMode = FDCAN_TX_FIFO_OPERATION;
   if (HAL_FDCAN_Init(&hfdcan1) != HAL_OK)
