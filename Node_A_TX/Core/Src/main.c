@@ -45,10 +45,14 @@
 /* USER CODE BEGIN PV */
  FDCAN_TxHeaderTypeDef TxHeader;
 
- const uint8_t TxData = 1;
+ uint8_t TxData[8] =
+ {
+     0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88
+ };
 
  HAL_StatusTypeDef startStatus;
  uint32_t txLevel;
+ uint32_t fdcanError;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -94,7 +98,7 @@ int main(void)
   MX_GPIO_Init();
   MX_FDCAN1_Init();
   /* USER CODE BEGIN 2 */
-  TxHeader.Identifier = 0x1;
+  TxHeader.Identifier = 0x123;
   TxHeader.IdType = FDCAN_STANDARD_ID;
   TxHeader.TxFrameType = FDCAN_DATA_FRAME;
   TxHeader.DataLength = FDCAN_DLC_BYTES_8;
@@ -118,6 +122,7 @@ int main(void)
 	  txLevel = HAL_FDCAN_GetTxFifoFreeLevel(&hfdcan1);
 
 	  txStatus = HAL_FDCAN_AddMessageToTxFifoQ( &hfdcan1, &TxHeader, TxData);
+	  fdcanError = HAL_FDCAN_GetError(&hfdcan1);
 	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
