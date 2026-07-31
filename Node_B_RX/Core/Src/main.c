@@ -47,6 +47,10 @@
  HAL_StatusTypeDef rxStatus;
  uint8_t messageReceived = 0;
  volatile uint32_t rxCount = 0;
+ HAL_StatusTypeDef filterStatus;
+ HAL_StatusTypeDef startStatus;
+ uint32_t fdcanError;
+ FDCAN_ProtocolStatusTypeDef protocolStatus;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -102,9 +106,9 @@ int main(void)
   sFilterConfig.FilterID1 = 0x000;
   sFilterConfig.FilterID2 = 0x000;
 
-  HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig);
+  filterStatus = HAL_FDCAN_ConfigFilter(&hfdcan1, &sFilterConfig);
 
-  HAL_FDCAN_Start(&hfdcan1);
+  startStatus = HAL_FDCAN_Start(&hfdcan1);
 
   /* USER CODE END 2 */
 
@@ -121,6 +125,9 @@ int main(void)
 	      messageReceived = 1;
 	      rxCount++;
 	  }
+	  fdcanError = HAL_FDCAN_GetError(&hfdcan1);
+
+	  HAL_FDCAN_GetProtocolStatus(&hfdcan1, &protocolStatus);
   }
   /* USER CODE END 3 */
 }

@@ -53,6 +53,7 @@
  HAL_StatusTypeDef startStatus;
  uint32_t txLevel;
  uint32_t fdcanError;
+ FDCAN_ProtocolStatusTypeDef protocolStatus;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -123,6 +124,7 @@ int main(void)
 
 	  txStatus = HAL_FDCAN_AddMessageToTxFifoQ( &hfdcan1, &TxHeader, TxData);
 	  fdcanError = HAL_FDCAN_GetError(&hfdcan1);
+	  HAL_FDCAN_GetProtocolStatus(&hfdcan1, &protocolStatus);
 	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
